@@ -78,11 +78,22 @@ def main(argv):
 	cgi_req = str(lines[num])
 	req_url = url + cgi_req
 	sys.stdout.write("[+] Sending request: " + req_url)
-	req = urllib2.Request(req_url)
-	req.add_header('Proxy', listen_ip + ":" + listen_port)
-	req.add_header('User-Agent', 'HTTPoxyScan by 1N3')
-	resp = urllib2.urlopen(req)
-	content = resp.read()
+	try:
+		req = urllib2.Request(req_url)
+		req.add_header('Proxy', listen_ip + ":" + listen_port)
+		req.add_header('User-Agent', 'Using HTTPoxyScan')
+		resp = urllib2.urlopen(req)
+		content = resp.read()
+	except IOError, e:
+		print '\tFailed to open "%s".' % url
+		if hasattr(e, 'code'):
+			print '\tWe failed with error code - %s.' % e.code
+		elif hasattr(e, 'reason'):
+			print "\tThe error object has the following 'reason' attribute :"
+			print e.reason
+		print "\tThis usually means the server doesn't exist,",
+		print "is down, or we don't have an internet connection."
+		# return False
 	num += 1
 	
     print bcolors.WARNING + "[*] Scan complete!" + bcolors.ENDC
