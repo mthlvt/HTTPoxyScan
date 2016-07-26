@@ -81,7 +81,7 @@ def main(argv):
 	try:
 		req = urllib2.Request(req_url)
 		req.add_header('Proxy', listen_ip + ":" + listen_port)
-		req.add_header('User-Agent', 'Using HTTPoxyScan')
+		req.add_header('User-Agent', 'HTTPoxyScan by 1N3')
 		resp = urllib2.urlopen(req)
 		content = resp.read()
 	except IOError, e:
